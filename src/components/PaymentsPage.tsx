@@ -53,6 +53,7 @@ export function PaymentsPage() {
 			{error && (
 				<ErrorBox>
 					{error.message === 'NOT_FOUND' && I18N.PAYMENT_NOT_FOUND}
+					{error.message === 'SERVER_ERROR' && I18N.INTERNAL_SERVER_ERROR}
 				</ErrorBox>
 			)}
 
