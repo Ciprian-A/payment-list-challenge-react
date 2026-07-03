@@ -1,5 +1,6 @@
 import {useState} from 'react'
 import {PaymentsTable} from '../components/PaymentsTable'
+import {CURRENCIES} from '../constants'
 import {I18N} from '../constants/i18n'
 import {usePaymentsQuery} from '../hooks/usePaymentsQuery'
 import {
@@ -10,6 +11,7 @@ import {
 	FlexRow,
 	SearchButton,
 	SearchInput,
+	Select,
 	Spinner,
 	Title
 } from './components'
@@ -17,16 +19,19 @@ import {
 export function PaymentsPage() {
 	const [search, setSearch] = useState('')
 	const [input, setInput] = useState('')
-	const {data, isLoading, error} = usePaymentsQuery({search})
-	const filtersActive = search !== ''
+	const [currency, setCurrency] = useState('')
+
+	const {data, isLoading, error} = usePaymentsQuery({search, currency})
+	const filtersActive = search !== '' || currency !== ''
+
 	const handleClearFilters = () => {
 		setInput('')
 		setSearch('')
+		setCurrency('')
 	}
 	const handleSearch = () => {
 		setSearch(input)
 	}
-	console.log({error})
 	return (
 		<Container>
 			<Title>{I18N.PAGE_TITLE}</Title>
@@ -37,7 +42,17 @@ export function PaymentsPage() {
 						value={input}
 						onChange={e => setInput(e.target.value)}
 					/>
-
+					<Select
+						aria-label={I18N.CURRENCY_FILTER_LABEL}
+						value={currency}
+						onChange={e => setCurrency(e.target.value)}>
+						<option value=''>{I18N.CURRENCIES_OPTION}</option>
+						{CURRENCIES.map(c => (
+							<option value={c} key={c}>
+								{c}
+							</option>
+						))}
+					</Select>
 					<SearchButton onClick={handleSearch}>
 						{I18N.SEARCH_BUTTON}
 					</SearchButton>
