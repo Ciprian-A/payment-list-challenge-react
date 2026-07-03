@@ -1,6 +1,8 @@
 import {I18N} from '../constants/i18n'
 import {Payment} from '../types/payment'
 import {
+	PaginationButton,
+	PaginationRow,
 	StatusBadge,
 	Table,
 	TableBodyWrapper,
@@ -12,7 +14,23 @@ import {
 	TableWrapper
 } from './components'
 
-export function PaymentsTable({payments}: {payments: Payment[]}) {
+type PaymentsTableProps = {
+	payments: Payment[]
+	page: number
+	onPrevious: () => void
+	onNext: () => void
+	isFirstPage: boolean
+	isLastPage: boolean
+}
+
+export function PaymentsTable({
+	payments,
+	page,
+	onPrevious,
+	onNext,
+	isFirstPage,
+	isLastPage
+}: PaymentsTableProps) {
 	return (
 		<TableWrapper>
 			<Table>
@@ -56,6 +74,18 @@ export function PaymentsTable({payments}: {payments: Payment[]}) {
 					))}
 				</TableBodyWrapper>
 			</Table>
+
+			<PaginationRow>
+				<PaginationButton disabled={isFirstPage} onClick={onPrevious}>
+					{I18N.PREVIOUS_BUTTON}
+				</PaginationButton>
+				<span>
+					{I18N.PAGE_LABEL} {page}
+				</span>
+				<PaginationButton disabled={isLastPage} onClick={onNext}>
+					{I18N.NEXT_BUTTON}
+				</PaginationButton>
+			</PaginationRow>
 		</TableWrapper>
 	)
 }

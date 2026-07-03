@@ -22,8 +22,9 @@ export function PaymentsPage() {
 	const [input, setInput] = useState('')
 	const [currency, setCurrency] = useState('')
 	const [currencyInput, setCurrencyInput] = useState('')
+	const [page, setPage] = useState(1)
 
-	const {data, isLoading, error} = usePaymentsQuery({search, currency})
+	const {data, isLoading, error} = usePaymentsQuery({search, currency, page})
 	const filtersActive = search !== '' || currency !== ''
 
 	const handleClearFilters = () => {
@@ -36,6 +37,9 @@ export function PaymentsPage() {
 		setSearch(input)
 		setCurrency(currencyInput)
 	}
+	const totalPages = data && Math.ceil(data.total / 5)
+	const isLastPage = page === totalPages
+
 	return (
 		<Container>
 			<Title>{I18N.PAGE_TITLE}</Title>
@@ -81,7 +85,14 @@ export function PaymentsPage() {
 				(data.payments.length === 0 ? (
 					<EmptyBox>{I18N.NO_PAYMENTS_FOUND}</EmptyBox>
 				) : (
-					<PaymentsTable payments={data.payments} />
+					<PaymentsTable
+						payments={data.payments}
+						page={page}
+						onPrevious={() => setPage(page - 1)}
+						onNext={() => setPage(page + 1)}
+						isFirstPage={page === 1}
+						isLastPage={isLastPage}
+					/>
 				))}
 		</Container>
 	)
