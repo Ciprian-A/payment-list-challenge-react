@@ -1,15 +1,52 @@
+import {useState} from 'react'
 import {PaymentsTable} from '../components/PaymentsTable'
 import {I18N} from '../constants/i18n'
 import {usePaymentsQuery} from '../hooks/usePaymentsQuery'
-import {Container, ErrorBox, Spinner, Title} from './components'
+import {
+	ClearButton,
+	Container,
+	ErrorBox,
+	FilterRow,
+	FlexRow,
+	SearchButton,
+	SearchInput,
+	Spinner,
+	Title
+} from './components'
 
 export function PaymentsPage() {
-	const {data, isLoading, error} = usePaymentsQuery()
-
+	const [search, setSearch] = useState('')
+	const [input, setInput] = useState('')
+	const {data, isLoading, error} = usePaymentsQuery({search})
+	const filtersActive = search !== ''
+	const handleClearFilters = () => {
+		setInput('')
+		setSearch('')
+	}
+	const handleSearch = () => {
+		setSearch(input)
+	}
 	return (
 		<Container>
 			<Title>{I18N.PAGE_TITLE}</Title>
+			<FilterRow>
+				<FlexRow>
+					<SearchInput
+						placeholder={I18N.SEARCH_PLACEHOLDER}
+						value={input}
+						onChange={e => setInput(e.target.value)}
+					/>
 
+					<SearchButton onClick={handleSearch}>
+						{I18N.SEARCH_BUTTON}
+					</SearchButton>
+					{filtersActive && (
+						<ClearButton onClick={handleClearFilters}>
+							{I18N.CLEAR_FILTERS}
+						</ClearButton>
+					)}
+				</FlexRow>
+			</FilterRow>
 			{isLoading && <Spinner />}
 
 			{error && <ErrorBox>{I18N.SOMETHING_WENT_WRONG}</ErrorBox>}
