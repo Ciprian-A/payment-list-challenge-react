@@ -33,7 +33,7 @@ export function PaymentsTable({
 }: PaymentsTableProps) {
 	return (
 		<TableWrapper>
-			<Table>
+			<Table data-testid='payments-table'>
 				<TableHeaderWrapper>
 					<TableHeaderRow>
 						<TableHeader>{I18N.TABLE_HEADER_PAYMENT_ID}</TableHeader>
@@ -77,15 +77,17 @@ export function PaymentsTable({
 
 			<PaginationRow>
 				<PaginationButton
+					data-testid='prev-page'
 					disabled={isFirstPage}
 					onClick={onPrevious}
 					aria-label={I18N.PREVIOUS_BUTTON}>
 					{I18N.PREVIOUS_BUTTON}
 				</PaginationButton>
-				<span aria-live='polite'>
+				<span aria-live='polite' data-testid='page-label'>
 					{I18N.PAGE_LABEL} {page}
 				</span>
 				<PaginationButton
+					data-testid='next-page'
 					disabled={isLastPage}
 					onClick={onNext}
 					aria-label={I18N.NEXT_BUTTON}>

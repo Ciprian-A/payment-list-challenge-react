@@ -2,10 +2,10 @@ import {QueryClient, QueryClientProvider} from '@tanstack/react-query'
 import {renderHook, waitFor} from '@testing-library/react'
 import type {ReactNode} from 'react'
 import {beforeEach, describe, expect, it, vi} from 'vitest'
-import {fetchPayments} from '../../api/payments'
-import {mockPayments134} from '../../mocks/mockPaymentsData'
-import {Currency, PaymentStatus} from '../../types/payment'
-import {usePaymentsQuery} from '../usePaymentsQuery'
+import {fetchPayments} from '../api/payments'
+import {mockPayments134} from '../mocks/mockPaymentsData'
+import {Currency, PaymentStatus} from '../types/payment'
+import {usePaymentsQuery} from './usePaymentsQuery'
 
 vi.mock('../../api/payments', () => ({
 	fetchPayments: vi.fn()

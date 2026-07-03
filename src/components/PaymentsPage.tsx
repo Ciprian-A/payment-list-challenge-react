@@ -46,6 +46,7 @@ export function PaymentsPage() {
 			<FilterRow>
 				<FlexRow>
 					<SearchInput
+						data-testid='search-input'
 						placeholder={I18N.SEARCH_PLACEHOLDER}
 						value={input}
 						onChange={e => setInput(e.target.value)}
@@ -53,6 +54,7 @@ export function PaymentsPage() {
 						name={I18N.SEARCH_LABEL}
 					/>
 					<Select
+						data-testid='currency-select'
 						aria-label={I18N.CURRENCY_FILTER_LABEL}
 						name={I18N.CURRENCY_FILTER_LABEL}
 						value={currencyInput}
@@ -64,11 +66,15 @@ export function PaymentsPage() {
 							</option>
 						))}
 					</Select>
-					<SearchButton onClick={handleSearch} aria-label={I18N.SEARCH_BUTTON}>
+					<SearchButton
+						data-testid='search-button'
+						onClick={handleSearch}
+						aria-label={I18N.SEARCH_BUTTON}>
 						{I18N.SEARCH_BUTTON}
 					</SearchButton>
 					{filtersActive && (
 						<ClearButton
+							data-testid='clear-filters-button'
 							onClick={handleClearFilters}
 							aria-label={I18N.CLEAR_FILTERS}>
 							{I18N.CLEAR_FILTERS}
@@ -76,10 +82,10 @@ export function PaymentsPage() {
 					)}
 				</FlexRow>
 			</FilterRow>
-			{isLoading && <Spinner />}
+			{isLoading && <Spinner data-testid='spinner' />}
 
 			{error && (
-				<ErrorBox role='alert'>
+				<ErrorBox role='alert' data-testid='error-box'>
 					{error.message === 'NOT_FOUND' && I18N.PAYMENT_NOT_FOUND}
 					{error.message === 'SERVER_ERROR' && I18N.INTERNAL_SERVER_ERROR}
 				</ErrorBox>
@@ -88,7 +94,9 @@ export function PaymentsPage() {
 			{!error &&
 				data &&
 				(data.payments.length === 0 ? (
-					<EmptyBox role='status'>{I18N.NO_PAYMENTS_FOUND}</EmptyBox>
+					<EmptyBox role='status' data-testid='empty-box'>
+						{I18N.NO_PAYMENTS_FOUND}
+					</EmptyBox>
 				) : (
 					<PaymentsTable
 						payments={data.payments}

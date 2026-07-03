@@ -1,5 +1,5 @@
 import {describe, expect, test} from 'vitest'
-import {fetchPayments} from '../payments'
+import {fetchPayments} from './payments'
 
 describe('fetchPayments', () => {
 	test('returns payments successfully', async () => {
