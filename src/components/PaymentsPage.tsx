@@ -49,9 +49,12 @@ export function PaymentsPage() {
 						placeholder={I18N.SEARCH_PLACEHOLDER}
 						value={input}
 						onChange={e => setInput(e.target.value)}
+						aria-label={I18N.SEARCH_LABEL}
+						name={I18N.SEARCH_LABEL}
 					/>
 					<Select
 						aria-label={I18N.CURRENCY_FILTER_LABEL}
+						name={I18N.CURRENCY_FILTER_LABEL}
 						value={currencyInput}
 						onChange={e => setCurrencyInput(e.target.value)}>
 						<option value=''>{I18N.CURRENCIES_OPTION}</option>
@@ -61,11 +64,13 @@ export function PaymentsPage() {
 							</option>
 						))}
 					</Select>
-					<SearchButton onClick={handleSearch}>
+					<SearchButton onClick={handleSearch} aria-label={I18N.SEARCH_BUTTON}>
 						{I18N.SEARCH_BUTTON}
 					</SearchButton>
 					{filtersActive && (
-						<ClearButton onClick={handleClearFilters}>
+						<ClearButton
+							onClick={handleClearFilters}
+							aria-label={I18N.CLEAR_FILTERS}>
 							{I18N.CLEAR_FILTERS}
 						</ClearButton>
 					)}
@@ -74,7 +79,7 @@ export function PaymentsPage() {
 			{isLoading && <Spinner />}
 
 			{error && (
-				<ErrorBox>
+				<ErrorBox role='alert'>
 					{error.message === 'NOT_FOUND' && I18N.PAYMENT_NOT_FOUND}
 					{error.message === 'SERVER_ERROR' && I18N.INTERNAL_SERVER_ERROR}
 				</ErrorBox>
@@ -83,7 +88,7 @@ export function PaymentsPage() {
 			{!error &&
 				data &&
 				(data.payments.length === 0 ? (
-					<EmptyBox>{I18N.NO_PAYMENTS_FOUND}</EmptyBox>
+					<EmptyBox role='status'>{I18N.NO_PAYMENTS_FOUND}</EmptyBox>
 				) : (
 					<PaymentsTable
 						payments={data.payments}

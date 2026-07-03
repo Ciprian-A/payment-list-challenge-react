@@ -76,13 +76,19 @@ export function PaymentsTable({
 			</Table>
 
 			<PaginationRow>
-				<PaginationButton disabled={isFirstPage} onClick={onPrevious}>
+				<PaginationButton
+					disabled={isFirstPage}
+					onClick={onPrevious}
+					aria-label={I18N.PREVIOUS_BUTTON}>
 					{I18N.PREVIOUS_BUTTON}
 				</PaginationButton>
-				<span>
+				<span aria-live='polite'>
 					{I18N.PAGE_LABEL} {page}
 				</span>
-				<PaginationButton disabled={isLastPage} onClick={onNext}>
+				<PaginationButton
+					disabled={isLastPage}
+					onClick={onNext}
+					aria-label={I18N.NEXT_BUTTON}>
 					{I18N.NEXT_BUTTON}
 				</PaginationButton>
 			</PaginationRow>
