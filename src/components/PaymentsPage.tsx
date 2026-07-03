@@ -26,6 +26,7 @@ export function PaymentsPage() {
 	const handleSearch = () => {
 		setSearch(input)
 	}
+	console.log({error})
 	return (
 		<Container>
 			<Title>{I18N.PAGE_TITLE}</Title>
@@ -49,7 +50,11 @@ export function PaymentsPage() {
 			</FilterRow>
 			{isLoading && <Spinner />}
 
-			{error && <ErrorBox>{I18N.SOMETHING_WENT_WRONG}</ErrorBox>}
+			{error && (
+				<ErrorBox>
+					{error.message === 'NOT_FOUND' && I18N.PAYMENT_NOT_FOUND}
+				</ErrorBox>
+			)}
 
 			{data && <PaymentsTable payments={data.payments} />}
 		</Container>
