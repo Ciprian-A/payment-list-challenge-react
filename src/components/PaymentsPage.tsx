@@ -1,11 +1,11 @@
 import {useState} from 'react'
-import {PaymentsTable} from '../components/PaymentsTable'
 import {CURRENCIES} from '../constants'
 import {I18N} from '../constants/i18n'
 import {usePaymentsQuery} from '../hooks/usePaymentsQuery'
 import {
 	ClearButton,
 	Container,
+	EmptyBox,
 	ErrorBox,
 	FilterRow,
 	FlexRow,
@@ -15,11 +15,13 @@ import {
 	Spinner,
 	Title
 } from './components'
+import {PaymentsTable} from './PaymentsTable'
 
 export function PaymentsPage() {
 	const [search, setSearch] = useState('')
 	const [input, setInput] = useState('')
 	const [currency, setCurrency] = useState('')
+	const [currencyInput, setCurrencyInput] = useState('')
 
 	const {data, isLoading, error} = usePaymentsQuery({search, currency})
 	const filtersActive = search !== '' || currency !== ''
@@ -28,9 +30,11 @@ export function PaymentsPage() {
 		setInput('')
 		setSearch('')
 		setCurrency('')
+		setCurrencyInput('')
 	}
 	const handleSearch = () => {
 		setSearch(input)
+		setCurrency(currencyInput)
 	}
 	return (
 		<Container>
@@ -44,8 +48,8 @@ export function PaymentsPage() {
 					/>
 					<Select
 						aria-label={I18N.CURRENCY_FILTER_LABEL}
-						value={currency}
-						onChange={e => setCurrency(e.target.value)}>
+						value={currencyInput}
+						onChange={e => setCurrencyInput(e.target.value)}>
 						<option value=''>{I18N.CURRENCIES_OPTION}</option>
 						{CURRENCIES.map(c => (
 							<option value={c} key={c}>
@@ -72,7 +76,13 @@ export function PaymentsPage() {
 				</ErrorBox>
 			)}
 
-			{data && <PaymentsTable payments={data.payments} />}
+			{!error &&
+				data &&
+				(data.payments.length === 0 ? (
+					<EmptyBox>{I18N.NO_PAYMENTS_FOUND}</EmptyBox>
+				) : (
+					<PaymentsTable payments={data.payments} />
+				))}
 		</Container>
 	)
 }
