@@ -7,7 +7,7 @@ import {mockPayments134} from '../mocks/mockPaymentsData'
 import {Currency, PaymentStatus} from '../types/payment'
 import {usePaymentsQuery} from './usePaymentsQuery'
 
-vi.mock('../../api/payments', () => ({
+vi.mock('../api/payments', () => ({
 	fetchPayments: vi.fn()
 }))
 
