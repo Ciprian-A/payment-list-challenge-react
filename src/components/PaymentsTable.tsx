@@ -57,12 +57,7 @@ export function PaymentsTable({
 								}).format(new Date(p.date))}
 							</TableCell>
 
-							<TableCell>
-								{new Intl.NumberFormat('en-US', {
-									style: 'currency',
-									currency: p.currency
-								}).format(p.amount)}
-							</TableCell>
+							<TableCell>{p.amount.toFixed(2)}</TableCell>
 
 							<TableCell>{p.customerName || I18N.EMPTY_CUSTOMER}</TableCell>
 							<TableCell>{p.currency || I18N.EMPTY_CURRENCY}</TableCell>

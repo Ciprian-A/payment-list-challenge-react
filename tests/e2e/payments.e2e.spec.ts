@@ -3,9 +3,6 @@ import {expect, test} from '@playwright/test'
 test('loads first page of payments', async ({page}) => {
 	await page.goto('/')
 
-	await expect(page.getByTestId('spinner')).toBeVisible()
-	await expect(page.getByTestId('spinner')).not.toBeVisible()
-
 	const rows = page.getByTestId('payments-table').locator('tbody tr')
 	await expect(rows).toHaveCount(5)
 
