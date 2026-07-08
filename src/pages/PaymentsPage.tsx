@@ -1,4 +1,3 @@
-import {useState} from 'react'
 import {
 	ClearButton,
 	Container,
@@ -15,30 +14,26 @@ import {
 import {PaymentsTable} from '../components/PaymentsTable'
 import {CURRENCIES} from '../constants'
 import {I18N} from '../constants/i18n'
-import {usePaymentsQuery} from '../hooks/usePaymentsQuery'
+import {usePaymentsPage} from '../hooks/usePaymentsPage'
 
 export function PaymentsPage() {
-	const [search, setSearch] = useState('')
-	const [input, setInput] = useState('')
-	const [currency, setCurrency] = useState('')
-	const [currencyInput, setCurrencyInput] = useState('')
-	const [page, setPage] = useState(1)
-
-	const {data, isLoading, error} = usePaymentsQuery({search, currency, page})
-	const filtersActive = search !== '' || currency !== ''
-
-	const handleClearFilters = () => {
-		setInput('')
-		setSearch('')
-		setCurrency('')
-		setCurrencyInput('')
-	}
-	const handleSearch = () => {
-		setSearch(input)
-		setCurrency(currencyInput)
-	}
-	const totalPages = data && Math.ceil(data.total / 5)
-	const isLastPage = page === totalPages
+	const {
+		data,
+		isLoading,
+		error,
+		input,
+		setInput,
+		currencyInput,
+		setCurrencyInput,
+		filtersActive,
+		isFirstPage,
+		isLastPage,
+		page,
+		handleSearch,
+		handleClearFilters,
+		goToPreviousPage,
+		goToNextPage
+	} = usePaymentsPage()
 
 	return (
 		<Container>
@@ -101,9 +96,9 @@ export function PaymentsPage() {
 					<PaymentsTable
 						payments={data.payments}
 						page={page}
-						onPrevious={() => setPage(page - 1)}
-						onNext={() => setPage(page + 1)}
-						isFirstPage={page === 1}
+						onPrevious={goToPreviousPage}
+						onNext={goToNextPage}
+						isFirstPage={isFirstPage}
 						isLastPage={isLastPage}
 					/>
 				))}

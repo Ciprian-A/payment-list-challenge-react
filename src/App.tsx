@@ -1,6 +1,6 @@
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query'
-import {PaymentsPage} from './components/PaymentsPage'
 import {I18N} from './constants/i18n'
+import {PaymentsPage} from './pages/PaymentsPage'
 
 const queryClient = new QueryClient({
 	defaultOptions: {
